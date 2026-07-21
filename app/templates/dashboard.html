@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="header-row">
+        <h1>Your Events</h1>
+        <a href="{{ url_for('admin.logout') }}">Log out</a>
+    </div>
+
+    <h2>Create a new event</h2>
+    <form method="POST" action="{{ url_for('admin.create_event') }}">
+        <label for="name">Event name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+
+        <button type="submit">Create event</button>
+    </form>
+
+    <h2>Existing events</h2>
+    {% if events %}
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Date</th><th>Sign-in link</th><th>Volunteers</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td><a href="{{ url_for('admin.event_detail', event_id=event.id) }}">{{ event.name }}</a></td>
+                    <td>{{ event.date.strftime('%d %b %Y') }}</td>
+                    <td><code>{{ url_for('public.signin', slug=event.slug, _external=True) }}</code></td>
+                    <td>{{ event.volunteers | length }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.export', event_id=event.id, format='csv') }}">CSV</a> |
+                        <a href="{{ url_for('admin.export', event_id=event.id, format='xlsx') }}">XLSX</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No events yet. Create one above.</p>
+    {% endif %}
+{% endblock %}

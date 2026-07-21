@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ event.name }} - Sign-ins{% endblock %}
+{% block content %}
+    <div class="header-row">
+        <h1>{{ event.name }}</h1>
+        <a href="{{ url_for('admin.dashboard') }}">&larr; Back to dashboard</a>
+    </div>
+    <p class="subtitle">{{ event.date.strftime('%d %B %Y') }}</p>
+    <p>
+        Sign-in link: <code>{{ url_for('public.signin', slug=event.slug, _external=True) }}</code><br>
+        <a href="{{ url_for('admin.export', event_id=event.id, format='csv') }}">Download CSV</a> |
+        <a href="{{ url_for('admin.export', event_id=event.id, format='xlsx') }}">Download XLSX</a>
+    </p>
+
+    {% if volunteers %}
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Phone</th><th>Signed in at</th></tr>
+            </thead>
+            <tbody>
+                {% for v in volunteers %}
+                <tr>
+                    <td>{{ v.name }}</td>
+                    <td>{{ v.email }}</td>
+                    <td>{{ v.phone }}</td>
+                    <td>{{ v.signed_in_at.strftime('%d %b %Y %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No volunteers have signed in yet.</p>
+    {% endif %}
+{% endblock %}

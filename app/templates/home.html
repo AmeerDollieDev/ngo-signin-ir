@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}NGO Volunteer Sign-In{% endblock %}
+{% block content %}
+    <h1>NGO Volunteer Sign-In</h1>
+    <p>This tool lets volunteers sign in via a shared link on event day, and lets
+       organizers export attendance data afterwards.</p>
+    <p><a href="{{ url_for('admin.login') }}">Owner login &rarr;</a></p>
+{% endblock %}
