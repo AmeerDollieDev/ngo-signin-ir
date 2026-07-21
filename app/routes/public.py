@@ -22,7 +22,7 @@ def signin(slug):
     if request.method == "POST":
         name = request.form.get("name", "")
         email = request.form.get("email", "")
-        phone = request.form.get("phone", "")
+        phone = request.form.get("phone number", "")
 
         errors = validate_signin(name, email, phone)
 
